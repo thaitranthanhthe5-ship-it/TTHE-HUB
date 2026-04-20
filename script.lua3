@@ -1,0 +1,114 @@
+-- [[ THE HUB - FIXED KILL AURA EDITION ]]
+if not game:IsLoaded() then game.Loaded:Wait() end
+
+local Player = game.Players.LocalPlayer
+local RS = game:GetService("ReplicatedStorage")
+local CommF = RS:WaitForChild("Remotes"):WaitForChild("CommF_")
+
+-- 0. THÔNG BÁO ADMIN (3 GIÂY/CÁI)
+task.spawn(function()
+    local Names = {"Chó Hiền", "Chó Tài", "Chó Thế"}
+    for i, name in ipairs(Names) do
+        game:GetService("StarterGui"):SetCore("SendNotification", {
+            Title = "🔥 Hệ Thống Admin " .. i,
+            Text = name,
+            Duration = 3;
+        })
+        task.wait(3)
+    end
+end)
+
+-- 1. AUTO CHỌN HẢI QUÂN
+task.spawn(function()
+    while task.wait(0.5) do
+        if Player.Team == nil then
+            pcall(function() CommF:InvokeServer("SetTeam", "Marines") end)
+        else break end
+    end
+end)
+
+-- 2. KILL AURA SIÊU TỐC (FIXED)
+task.spawn(function()
+    while task.wait(0.1) do -- Tốc độ an toàn để không bị văng trên iOS
+        pcall(function()
+            local char = Player.Character
+            local tool = char:FindFirstChildOfClass("Tool")
+            
+            -- BẮT BUỘC PHẢI CẦM VŨ KHÍ TRÊN TAY MỚI GÂY DAME
+            if tool and (tool.ToolTip == "Melee" or tool.ToolTip == "Blox Fruit" or tool.ToolTip == "Sword" or tool.ToolTip == "Gun") then
+                
+                -- Duy trì V4
+                if char:FindFirstChild("RaceTransformed") then
+                    CommF:InvokeServer("EnergyRegeneration")
+                end
+
+                -- Tìm quái xung quanh
+                for _, v in pairs(workspace.Enemies:GetChildren()) do
+                    if v:FindFirstChild("HumanoidRootPart") and v.Humanoid.Health > 0 then
+                        local dist = (char.HumanoidRootPart.Position - v.HumanoidRootPart.Position).Magnitude
+                        if dist < 65 then
+                            -- Gửi lệnh tấn công trực tiếp vào Remote của Blox Fruit
+                            RS.Remotes.Validator:FireServer(math.floor(workspace.DistributedGameTime * 1000))
+                            CommF:InvokeServer("Attack", v.HumanoidRootPart)
+                            
+                            -- Thêm lệnh đấm tay để game nhận diện (Fix lỗi đứng im không dame)
+                            spawn(function()
+                                if char:FindFirstChildOfClass("Tool") then
+                                    char:FindFirstChildOfClass("Tool"):Activate()
+                                end
+                            end)
+                        end
+                    end
+                end
+            end
+        end)
+    end
+end)
+
+-- 3. AUTO NHẶT TRÁI (TELE TO HAND)
+local function FastStore(fruit)
+    pcall(function()
+        if fruit:IsA("Tool") and fruit:FindFirstChild("Handle") then
+            local char = Player.Character
+            if char and char:FindFirstChild("HumanoidRootPart") then
+                fruit.Handle.CanCollide = false
+                fruit.Handle.CFrame = char.HumanoidRootPart.CFrame
+                task.wait(0.2)
+                char.Humanoid:EquipTool(fruit)
+                task.wait(0.5)
+                CommF:InvokeServer("StoreFruit", fruit.Name, fruit)
+            end
+        end
+    end)
+end
+
+-- 4. CÁC TÍNH NĂNG PHỤ (SORU, ADMIN, ANTI-BAN)
+task.spawn(function()
+    while task.wait(1) do
+        getgenv().SoruCooldown = 0
+        for _, p in pairs(game.Players:GetPlayers()) do
+            if p:GetRankInGroup(2440505) > 1 and p ~= Player then Player:Kick("Admin!") end
+        end
+    end
+end)
+
+workspace.ChildAdded:Connect(function(child)
+    if child:IsA("Tool") then task.wait(0.2) FastStore(child) end
+end)
+
+local mt = getrawmetatable(game)
+local old = mt.__namecall
+setreadonly(mt, false)
+mt.__namecall = newcclosure(function(self, ...)
+    local method = getnamecallmethod()
+    if method == "Kick" or (method == "FireServer" and {...}[1] == "TeleportCheck") then return nil end
+    return old(self, unpack({...}))
+end)
+setreadonly(mt, true)
+
+game:GetService("Players").LocalPlayer.Idled:Connect(function()
+    game:GetService("VirtualUser"):CaptureController()
+    game:GetService("VirtualUser"):ClickButton2(Vector2.new())
+end)
+
+print("--- SYSTEM LOADED ---")
