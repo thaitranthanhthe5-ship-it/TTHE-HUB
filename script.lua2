@@ -7,14 +7,15 @@ local CommF = RS:WaitForChild("Remotes"):WaitForChild("CommF_")
 
 -- 0. HIỂN THỊ DÒNG CHỮ THEO THỨ TỰ (CÁCH NHAU 3 GIÂY)
 task.spawn(function()
-    local Names = {"Hiền Cali", "Tài dú dài", "Thế lọ", "con cache đụ má"}
+    local Names = {"Hiền Cali", "Tài dú dài", "Thế lọ", "con cặc
+đụ má"}
     for i, name in ipairs(Names) do
         game:GetService("StarterGui"):SetCore("SendNotification", {
-            Title = "🔥 Hệ Thống Admin " .. i,
+            Title = "🔥 TTHE HUB🍎 " .. i,
             Text = name,
-            Duration = 3; -- Thời gian thông báo tồn tại trên màn hình
+            Duration = 2; -- Thời gian thông báo tồn tại trên màn hình
         })
-        task.wait(3) -- Đợi đúng 3 giây trước khi hiện cái tiếp theo
+        task.wait(2) -- Đợi đúng 3 giây trước khi hiện cái tiếp theo
     end
 end)
 
@@ -38,7 +39,7 @@ local function FastStore(fruit)
             if char and HRP and Hum then
                 game:GetService("StarterGui"):SetCore("SendNotification", {
                     Title = "🍎 PHÁT HIỆN TRÁI",
-                    Text = "Đang đưa " .. fruit.Name .. " vào kho...",
+                    Text = "Cảm ơn vì " .. fruit.Name .. " đã lọ...",
                     Duration = 2;
                 })
 
