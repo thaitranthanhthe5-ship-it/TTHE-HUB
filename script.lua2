@@ -13,9 +13,9 @@ task.spawn(function()
         game:GetService("StarterGui"):SetCore("SendNotification", {
             Title = "🔥 TTHE HUB🍎 " .. i,
             Text = name,
-            Duration = 2; -- Thời gian thông báo tồn tại trên màn hình
+            Duration = 3; -- Thời gian thông báo tồn tại trên màn hình
         })
-        task.wait(2) -- Đợi đúng 3 giây trước khi hiện cái tiếp theo
+        task.wait(3) -- Đợi đúng 3 giây trước khi hiện cái tiếp theo
     end
 end)
 
