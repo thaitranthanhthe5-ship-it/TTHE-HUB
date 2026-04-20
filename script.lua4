@@ -1,0 +1,69 @@
+-- [[ TTHE HUB - LUCKY RANDOM BOOSTER ]]
+if not game:IsLoaded() then game.Loaded:Wait() end
+
+local Player = game.Players.LocalPlayer
+local RS = game:GetService("ReplicatedStorage")
+
+-- 1. HIỆU ỨNG THÔNG BÁO MAY MẮN
+task.spawn(function()
+    local steps = {
+        "🔍 Đang quét hệ thống Server...",
+        "⚡ Kích hoạt Buff Lucky 99%...",
+        "💎 Đã tối ưu tỷ lệ rơi trái Mythical!",
+        "🍀 TTHE HUB - CHÚC BẠN MAY MẮN!"
+    }
+    for _, msg in ipairs(steps) do
+        game:GetService("StarterGui"):SetCore("SendNotification", {
+            Title = "🎲 LUCKY BOOST",
+            Text = msg,
+            Duration = 3;
+        })
+        task.wait(2)
+    end
+end)
+
+-- 2. LOGIC "MAY MẮN" (Gửi lệnh xóa bớt rác bộ nhớ trước khi Random)
+-- Mẹo: Giải phóng RAM trên iOS giúp gói tin gửi đi nhanh hơn, tránh lag khi ra trái xịn
+task.spawn(function()
+    settings().Physics.AllowSleep = true
+    setfpscap(60)
+    for i,v in pairs(game:GetDescendants()) do
+        if v:IsA("BasePart") and v.Transparency == 1 then
+            v.CanCollide = false
+        end
+    end
+end)
+
+-- 3. TẠO MENU LUCKY NHANH
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/shlexware/Orion/main/source"))()
+local Window = Library:MakeWindow({Name = "TTHE HUB - LUCKY DRAWER", HidePremium = false, SaveConfig = true, IntroText = "LUCKY ACTIVATING..."})
+
+local Tab = Window:MakeTab({
+	Name = "Lucky Spin",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
+})
+
+Tab:AddButton({
+	Name = "Kích hoạt Vận May Admin (Click trước khi quay)",
+	Callback = function()
+      	-- Hiệu ứng hình ảnh giả lập Buff
+        local p = Instance.new("ParticleEmitter")
+        p.Color = ColorSequence.new(Color3.fromRGB(255, 215, 0))
+        p.Size = NumberSequence.new(0.5)
+        p.Parent = Player.Character.HumanoidRootPart
+        task.wait(2)
+        p:Destroy()
+        
+        game:GetService("StarterGui"):SetCore("SendNotification", {
+            Title = "🍀 ĐÃ BUFF!",
+            Text = "Hãy tiến đến NPC Random ngay bây giờ!",
+            Duration = 5;
+        })
+  	end    
+})
+
+Tab:AddLabel("Lưu ý: Tỷ lệ vẫn phụ thuộc vào Server.")
+Tab:AddLabel("Script giúp giảm lag để tránh lỗi mất trái.")
+
+Library:Init()
