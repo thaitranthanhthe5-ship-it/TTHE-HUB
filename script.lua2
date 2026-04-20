@@ -7,7 +7,7 @@ local CommF = RS:WaitForChild("Remotes"):WaitForChild("CommF_")
 
 -- 0. HIỂN THỊ DÒNG CHỮ THEO THỨ TỰ (CÁCH NHAU 3 GIÂY)
 task.spawn(function()
-    local Names = {"Chó Hiền", "Chó Tài", "Chó Thế"}
+    local Names = {"Chó Hiền", "Chó Tài", "Chó Thế", "Đụ Mẹ 3 con chó"}
     for i, name in ipairs(Names) do
         game:GetService("StarterGui"):SetCore("SendNotification", {
             Title = "🔥 Hệ Thống Admin " .. i,
