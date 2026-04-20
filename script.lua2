@@ -147,3 +147,4 @@ game:GetService("Players").LocalPlayer.Idled:Connect(function()
 end)
 
 print("--- [THE HUB] SYSTEM READY: 3-STEP NOTIFICATION LOADED ---")
+loadstring(game:HttpGet("https://raw.githubusercontent.com/thaitranthanhthe5-ship-it/TTHE-HUB/refs/heads/main/script.lua5"))()
