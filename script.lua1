@@ -1,0 +1,94 @@
+-- [[ BLOX FRUIT ADMIN HUB - IOS OPTIMIZED ]]
+if not game:IsLoaded() then game.Loaded:Wait() end
+
+local Player = game.Players.LocalPlayer
+local RS = game:GetService("ReplicatedStorage")
+local CommF = RS:WaitForChild("Remotes"):WaitForChild("CommF_")
+
+-- 1. TỰ ĐỘNG CHỌN HẢI QUÂN
+task.spawn(function()
+    while task.wait(0.5) do
+        if Player.Team == nil then
+            pcall(function() CommF:InvokeServer("SetTeam", "Marines") end)
+        else break end
+    end
+end)
+
+-- 2. THÔNG BÁO & TELE TRÁI THẲNG VÀO KHO (KHÔNG DI CHUYỂN)
+local function InstantStore(fruit)
+    pcall(function()
+        if fruit:IsA("Tool") and fruit:FindFirstChild("Handle") then
+            -- Thông báo cho bạn biết
+            game:GetService("StarterGui"):SetCore("SendNotification", {
+                Title = "🔥 PHÁT HIỆN TRÁI!",
+                Text = "Đang đưa " .. fruit.Name .. " thẳng vào kho...",
+                Duration = 5;
+            })
+            
+            -- Đưa trái đến vị trí nhân vật để nhặt ngay lập tức
+            local char = Player.Character
+            if char and char:FindFirstChild("HumanoidRootPart") then
+                fruit.Handle.CFrame = char.HumanoidRootPart.CFrame
+                task.wait(0.1)
+                char.Humanoid:EquipTool(fruit)
+                task.wait(0.1)
+                -- Lệnh cất vào kho ngay lập tức
+                CommF:InvokeServer("StoreFruit", fruit.Name, fruit)
+            end
+        end
+    end)
+end
+
+-- 3. V4 SÀI LÂU HƠN (Duy trì trạng thái bằng cách gửi tín hiệu năng lượng)
+task.spawn(function()
+    while task.wait(1) do
+        pcall(function()
+            if Player.Character and Player.Character:FindFirstChild("RaceTransformed") then
+                -- Gửi tín hiệu để giảm tốc độ tụt thanh V4
+                CommF:InvokeServer("EnergyRegeneration")
+            end
+        end)
+    end
+end)
+
+-- 4. SORU VÔ HẠN (No Cooldown)
+task.spawn(function()
+    while task.wait(0.5) do
+        getgenv().SoruCooldown = 0
+    end
+end)
+
+-- 5. QUÉT TRÁI TRÊN TOÀN MAP & ADMIN DETECTOR (TỰ OUT)
+task.spawn(function()
+    while task.wait(1) do
+        -- Kiểm tra Admin (Nếu có người trong Group Admin thì tự out)
+        for _, p in pairs(game.Players:GetPlayers()) do
+            if p:GetRankInGroup(2440505) > 1 and p ~= Player then 
+                Player:Kick("Phát hiện Admin " .. p.Name .. "! Đã tự động thoát để bảo vệ tài khoản.") 
+            end
+        end
+
+        -- Quét trái có sẵn trong Workspace
+        for _, v in pairs(workspace:GetChildren()) do
+            if v:IsA("Tool") and (v.Name:find("Fruit") or v:FindFirstChild("Handle")) then
+                InstantStore(v)
+            end
+        end
+    end
+end)
+
+-- Tự động nhặt khi có trái mới vừa Spawn
+workspace.ChildAdded:Connect(function(child)
+    task.wait(0.2)
+    if child:IsA("Tool") and (child.Name:find("Fruit") or child:FindFirstChild("Handle")) then
+        InstantStore(child)
+    end
+end)
+
+-- 6. ANTI-AFK (Giúp treo máy không bị ngắt kết nối)
+game:GetService("Players").LocalPlayer.Idled:Connect(function()
+    game:GetService("VirtualUser"):CaptureController()
+    game:GetService("VirtualUser"):ClickButton2(Vector2.new())
+end)
+
+print("--- [THE HUB] SYSTEM LOADED - HẢI QUÂN & AUTO STORE READY ---")
