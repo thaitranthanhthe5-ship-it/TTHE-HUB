@@ -17,16 +17,16 @@ if UniverseID == 994732206 then
     task.wait(1)
 
     StarterGui:SetCore("SendNotification",{
-        Title = "TTHE HUB",
-        Text = "Nà Ná Na Na Ná",
+        Title = "THANHTHE HUB",
+        Text = "Con Cặc",
         Duration = 3
     })
 
     task.wait(3)
 
     StarterGui:SetCore("SendNotification",{
-        Title = "TTHE HUB",
-        Text = "Anh Thế Lỏ",
+        Title = "THANHTHE HUB",
+        Text = "Bố Là Thế",
         Duration = 2
     })
 
@@ -44,7 +44,7 @@ if UniverseID == 994732206 then
 
 else
     StarterGui:SetCore("SendNotification",{
-        Title = "TTHE HUB",
+        Title = "THANHTHE HUB",
         Text = "Game Not Supported",
         Duration = 5
     })
