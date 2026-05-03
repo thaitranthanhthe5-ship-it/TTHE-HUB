@@ -1,57 +1,33 @@
--- [[ CHẾ ĐỘ FARM SIÊU MƯỢT: GIỮ NPC & MẶT ĐẤT ]]
-ConfigSection:NewButton("Xóa Map (Giữ NPC)", "Xóa vật thể rác, hiện rõ NPC để nhận Quest", function()
-    pcall(function()
-        -- 1. Xóa các hiệu ứng ánh sáng gây lag
-        local Lighting = game:GetService("Lighting")
-        Lighting:ClearAllChildren()
-        Lighting.FogEnd = 9e9
+repeat wait() until game:IsLoaded() and game.Players.LocalPlayer
+getgenv().Key = "7a4b659bc7d29d699ebbeeed"
+getgenv().config =  {
+    team = "Pirates", -- "Pirates" "Marines"
+    hpTimeout = 15,
+    targetTimeout = 20,
+    lowHealth = 4000,
+    safeHealth = 4500,
+    blackScreen = false,
+    useSkill = false, -- only x f gas fruit
+    equipPaleScarf = false,
+    webhookurl = "",
+    webhookEnable = false,
+    webhookSendMinutes = 5,
+    attackSpeed = 0.001,
+    mode = 1, -- 2 or 1 
+    sea = 3,
+    region = "Singapore",
+    trans = false, -- auto press V t rex 
+}
+repeat wait() until game:IsLoaded() and game.Players.LocalPlayer 
+getgenv().Config = {
+    ["Settings"] = {
+        ["Bring Fruit"] = true,
+        ["Store Fruit"] = true
+    },
 
-        -- 2. Quét Workspace
-        for _, v in pairs(workspace:GetDescendants()) do
-            -- Kiểm tra xem có phải là NPC không (Thường nằm trong Folder NPCs hoặc có Humanoid)
-            local isNPC = v:IsA("Model") and (v:FindFirstChild("NPC") or v:FindFirstChild("Humanoid") or v.Name:find("Quest"))
-            
-            -- Kiểm tra các vật thể quan trọng khác
-            local isEssential = v:IsDescendantOf(game.Players.LocalPlayer.Character) or 
-                                v:IsDescendantOf(workspace.Enemies) or 
-                                isNPC or
-                                v.Name:lower():find("floor") or 
-                                v.Name == "Baseplate" or
-                                v.Name:lower():find("part") and v.Parent.Name == "Map" -- Một số phần mặt đất quan trọng
-
-            if v:IsA("BasePart") then
-                if not isEssential then
-                    -- Xóa nhà cửa, cây, núi...
-                    v:Destroy()
-                else
-                    -- Tối ưu mặt đất và NPC
-                    v.Material = Enum.Material.SmoothPlastic
-                    if not isNPC then
-                        v.Color = Color3.fromRGB(80, 80, 80) -- Mặt đất màu xám tối cho mát máy
-                    end
-                end
-            elseif (v:IsA("Decal") or v:IsA("Texture") or v:IsA("ParticleEmitter")) and not v:IsDescendantOf(game.Players.LocalPlayer.Character) then
-                -- Xóa hình dán rác (trừ các hiệu ứng của nhân vật mình)
-                v:Destroy()
-            end
-        end
-
-        -- 3. HIỆU ỨNG HIGHLIGHT NPC (GIÚP NHÌN XUYÊN THẤU)
-        for _, npc in pairs(workspace:GetDescendants()) do
-            if npc:IsA("Model") and (npc:FindFirstChild("Humanoid") or npc.Name:find("Quest")) and not npc:IsDescendantOf(workspace.Enemies) then
-                local Highlight = Instance.new("Highlight")
-                Highlight.Parent = npc
-                Highlight.FillColor = Color3.fromRGB(0, 255, 0) -- Màu xanh lá cây dễ nhìn
-                Highlight.OutlineColor = Color3.fromRGB(255, 255, 255)
-                Highlight.FillTransparency = 0.5
-            end
-        end
-
-        -- Thông báo
-        game:GetService("StarterGui"):SetCore("SendNotification", {
-            Title = "🚀 TTHE HUB",
-            Text = "Đã dọn Map! NPC hiện màu xanh, mặt đất giữ nguyên.",
-            Duration = 5;
-        })
-    end)
-end)
+    ["Webhook"] = {
+        ["Enabled"] = false,
+        ["Url"] = "https://discord.gg/vCqfSB2tev"
+    }
+}
+loadstring(game:HttpGet("https://raw.githubusercontent.com/obiiyeuem/vthangsitink/refs/heads/main/Bountynew.lua"))()
