@@ -12,7 +12,7 @@ getgenv().config =  {
     webhookurl = "",
     webhookEnable = false,
     webhookSendMinutes = 5,
-    attackSpeed = 0.0000001,
+    attackSpeed = 0.000001,
     mode = 1, -- 2 or 1 
     sea = 3,
     region = "Singapore",
@@ -21,7 +21,7 @@ getgenv().config =  {
     bpsit = true, -- khong hunt may thang ngoi thuyen - kho gay dame 
     autoEatFruit = false, 
     autoEatFruitNames = "", -- T-Rex-T-Rex", "Gas-Gas", "Dragon-Dragon", "Kitsune-Kitsune", "Pain-Pain", "Blade-Blade"
-    boostfps = false,
+    boostfps = true,
     autoV4 = true, 
 }
 loadstring(game:HttpGet("https://raw.githubusercontent.com/obiiyeuem/vthangsitink/refs/heads/main/Bountynew.lua"))()
