@@ -21,7 +21,7 @@ getgenv().config =  {
     bpsit = true, -- khong hunt may thang ngoi thuyen - kho gay dame 
     autoEatFruit = false, 
     autoEatFruitNames = "", -- T-Rex-T-Rex", "Gas-Gas", "Dragon-Dragon", "Kitsune-Kitsune", "Pain-Pain", "Blade-Blade"
-    boostfps = true,
+    boostfps = false,
     autoV4 = true, 
 }
 loadstring(game:HttpGet("https://raw.githubusercontent.com/obiiyeuem/vthangsitink/refs/heads/main/Bountynew.lua"))()
