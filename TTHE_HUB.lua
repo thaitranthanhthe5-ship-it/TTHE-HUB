@@ -23,5 +23,15 @@ getgenv().config =  {
     autoEatFruitNames = "", -- T-Rex-T-Rex", "Gas-Gas", "Dragon-Dragon", "Kitsune-Kitsune", "Pain-Pain", "Blade-Blade"
     boostfps = false,
     autoV4 = true, 
+    HuntConfig = {
+        ["Earned Notification Enabled"] = false,
+        ["Reset Farm (New)"] = true,
+        ["Chat"] = false,
+        ["Farm Delay"] = 0.22, -- 0.15 - Super Fast(Risk - Kick) | 0.22 Fast | 0.35 Medium | Max 0.5
+        ["Webhook"] = {
+            Enabled = false,
+            Url = ""
+        }
+    }
 }
 loadstring(game:HttpGet("https://raw.githubusercontent.com/obiiyeuem/vthangsitink/refs/heads/main/Bountynew.lua"))()
