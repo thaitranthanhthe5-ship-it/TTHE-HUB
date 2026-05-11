@@ -1,7 +1,7 @@
 getgenv().Config = {
     Team = "Pirates",
     HideUI = true,
-    attackSpeed = 0.00001,
+    attackSpeed = 0.00000001,
     HuntConfig = {
         ["Earned Notification Enabled"] = false,
         ["Reset Farm (New)"] = true,
