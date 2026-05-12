@@ -10,7 +10,7 @@ spawn(function()
             combat.activeController.attack = function(self)
                 self.attackInterval = 0
                 self.readyToAttack = true
-                for i = 1, 999 do 
+                for i = 1, 999999 do 
                     old_attack(self)
                 end
             end
@@ -28,11 +28,11 @@ getgenv().config =  {
     safeHealth = 5000,
     blackScreen = false,
     useSkill = false,
-    attackSpeed = 0,
+    attackSpeed = 0.00000000001,
     mode = 1,
     sea = 3,
     region = "Singapore",
-    trans = true,
+    trans = false,
     bltween = true,
     bpsit = true,
     autoEatFruit = false,
