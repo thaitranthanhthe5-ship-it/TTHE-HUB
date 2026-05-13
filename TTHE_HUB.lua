@@ -1,4 +1,19 @@
 repeat wait() until game:IsLoaded() and game.Players.LocalPlayer
+
+spawn(function()
+    pcall(function()
+        local combat = require(game:GetService("Players").LocalPlayer.PlayerScripts.CombatFramework)
+        local old_attack = combat.activeController.attack
+        combat.activeController.attack = function(self)
+            self.attackInterval = 0
+            self.readyToAttack = true
+            old_attack(self) -- Lần 1
+            old_attack(self) -- Lần 2
+        end
+    end)
+end)
+
+repeat wait() until game:IsLoaded() and game.Players.LocalPlayer
 getgenv().Key = "7a4b659bc7d29d699ebbeeed"
 getgenv().config =  {
     team = "Pirates", -- "Pirates" "Marines"
