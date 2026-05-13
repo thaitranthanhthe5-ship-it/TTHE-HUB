@@ -1,19 +1,35 @@
 repeat wait() until game:IsLoaded() and game.Players.LocalPlayer
-
 spawn(function()
-    pcall(function()
-        local combat = require(game:GetService("Players").LocalPlayer.PlayerScripts.CombatFramework)
-        local old_attack = combat.activeController.attack
-        combat.activeController.attack = function(self)
-            self.attackInterval = 0
-            self.readyToAttack = true
-            old_attack(self) -- Lần 1
-            old_attack(self) -- Lần 2
-        end
-    end)
+    while task.wait() do
+        pcall(function()
+            local target = game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart") -- Giả định script chính đã tìm target
+            -- Nếu bạn đang hunt, script Banana sẽ tự tìm target, đoạn này hỗ trợ Aim
+            if getgenv().config.autoClick then
+                local combat = require(game:GetService("Players").LocalPlayer.PlayerScripts.CombatFramework)
+                if combat.activeController then
+                    combat.activeController:attack()
+                end
+            end
+        end)
+    end
 end)
 
-repeat wait() until game:IsLoaded() and game.Players.LocalPlayer
+    while task.wait(0.1) do -- Delay nhẹ để không bị kẹt chiêu
+        pcall(function()
+            local VIM = game:GetService("VirtualInputManager")
+            local char = game.Players.LocalPlayer.Character
+            
+            -- Chỉ spam chiêu khi máu đối thủ hoặc khoảng cách hợp lý (logic này Banana đã lo)
+            -- Ở đây mình ép phím giả lập để Aim chuẩn theo chuột/target
+            if getgenv().config.useZ then VIM:SendKeyEvent(true, "Z", false, game) end
+            if getgenv().config.useX then VIM:SendKeyEvent(true, "X", false, game) end
+            if getgenv().config.useC then VIM:SendKeyEvent(true, "C", false, game) end
+            if getgenv().config.useV then VIM:SendKeyEvent(true, "V", false, game) end
+            if getgenv().config.useF then VIM:SendKeyEvent(true, "F", false, game) end
+        end)
+    end
+end)
+
 getgenv().Key = "7a4b659bc7d29d699ebbeeed"
 getgenv().config =  {
     team = "Pirates", -- "Pirates" "Marines"
@@ -38,5 +54,12 @@ getgenv().config =  {
     autoEatFruitNames = "", -- T-Rex-T-Rex", "Gas-Gas", "Dragon-Dragon", "Kitsune-Kitsune", "Pain-Pain", "Blade-Blade"
     boostfps = false,
     autoV4 = true,    
+    autoClick = true,   -- Tự động cào T-Rex
+    useZ = true,        -- Bật/Tắt chiêu Z
+    useX = true,        -- Bật/Tắt chiêu X
+    useC = true,        -- Bật/Tắt chiêu C
+    useV = false,        -- Bật/Tắt chiêu V (Biến hình)
+    useF = false,        -- Bật/Tắt chiêu F
 }
+
 loadstring(game:HttpGet("https://raw.githubusercontent.com/obiiyeuem/vthangsitink/refs/heads/main/Bountynew.lua"))()
